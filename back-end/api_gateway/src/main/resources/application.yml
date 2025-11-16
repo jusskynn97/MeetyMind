@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+app:
+  api-prefix: /api
+
+spring:
+  application:
+    name: gateway-service
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  http:
+    codecs:
+      max-in-memory-size: 10MB
+
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          default-filters:
+#            - name: RequestRateLimiter
+            - name: Retry
+              args:
+                retries: 2
+                statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE,GATEWAY_TIMEOUT
+                methods: GET,POST,PUT,DELETE
+                backoff:
+                  firstBackoff: 3000ms
+                  maxBackoff: 5000ms
+                  factor: 1
+                  basedOnPreviousValue: false
+                jitter:
+                  randomFactor: 0.5
+                timeout: 100ms
+
+          discovery:
+            locator:
+              enabled: true
+
+          routes:
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                - Path=${app.api-prefix}/auth/**, ${app.api-prefix}/user/**
+              filters:
+                - PreserveHostHeader
+
+          httpclient:
+            wiretap: true
+          httpserver:
+            wiretap: true
+
+eureka:
+  instance:
+    hostname: ${HOST_IP_ADDRESS:localhost}
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
