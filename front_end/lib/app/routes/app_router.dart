@@ -3,6 +3,7 @@ import 'package:front_end/app/di/injection.dart';
 import 'package:front_end/features/auth/presentation/blocs/login_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_event.dart';
+import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:front_end/app/routes/routes.dart';
 import 'package:front_end/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -34,6 +35,9 @@ class AppRouter {
           providers: [
             BlocProvider(
               create: (_) => sl<DashboardBloc>()..add(LoadDashboardEvent()) 
+            ),
+            BlocProvider<RecordingBloc>(
+              create: (_) => sl<RecordingBloc>(),
             ),
           ], 
           child: const MainPage()),

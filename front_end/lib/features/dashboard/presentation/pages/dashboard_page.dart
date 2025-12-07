@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front_end/app/theme/colors.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_event.dart';
-import 'package:front_end/features/dashboard/presentation/widget/meeting_today_widget.dart';
+import 'package:front_end/features/dashboard/presentation/widget/next_meeting_widget.dart';
+import 'package:front_end/features/dashboard/presentation/widget/user_overview_widget.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -54,7 +55,7 @@ class DashboardPage extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                 bottom: 60,
                               ),
-                              child: MeetingTodayWidget()
+                              child: UserOverviewWidget()
                             ),
                           ),
                         ],
@@ -72,35 +73,36 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    for (int i = 0; i < 10; i++)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+            NextMeetingWidget(),
+            // Expanded(
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.vertical,
+            //     child: Column(
+            //       children: [
+            //         for (int i = 0; i < 10; i++)
+            //           Padding(
+            //             padding: const EdgeInsets.all(8.0),
+            //             child: Container(
+            //               height: 100,
+            //               width: double.infinity,
+            //               decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 borderRadius: BorderRadius.circular(12),
+            //                 boxShadow: [
+            //                   BoxShadow(
+            //                     color: Colors.grey.withOpacity(0.3),
+            //                     spreadRadius: 2,
+            //                     blurRadius: 5,
+            //                     offset: const Offset(0, 3),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

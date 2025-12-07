@@ -1,0 +1,31 @@
+server:
+  port: 8091
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka/
+      fetch-registry: true
+      register-with-eureka: true
+    instance:
+      prefer-ip-address: true
+
+spring:
+  application:
+    name: meeting-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/meeting_service
+    username: admin
+    password: 123456
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+app:
+  jwt:
+    secret: 8d7a9b0c1f2e3d4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8
+    expiration: 86400000

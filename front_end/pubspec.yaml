@@ -45,6 +45,7 @@ dependencies:
   json_annotation: ^4.9.0
   dio: ^5.9.0
   shared_preferences: ^2.5.3
+  table_calendar: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/fonts/
     - assets/images/
     - assets/animations/
     - assets/animations/onboarding/
@@ -77,7 +79,12 @@ flutter:
 
 
   fonts:
-    - family: Mulish
+    - family: Poppins
       fonts:
-        - asset: assets/fonts/Mulish-Light.ttf
-        - asset: assets/fonts/Mulish-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600

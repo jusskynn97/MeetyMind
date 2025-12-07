@@ -4,8 +4,8 @@ import 'package:front_end/app/theme/colors.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_state.dart';
 
-class MeetingTodayWidget extends StatelessWidget {
-  const MeetingTodayWidget({super.key});
+class UserOverviewWidget extends StatelessWidget {
+  const UserOverviewWidget({super.key});
 
   Widget _buildInfoCard({
     required IconData icon,
@@ -28,7 +28,7 @@ class MeetingTodayWidget extends StatelessWidget {
           Text(
             '$count $label',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w600,
               color: textColor.withOpacity(0.9),
             ),

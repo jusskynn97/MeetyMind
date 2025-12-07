@@ -1,11 +1,16 @@
+// features/main_navigation/presentation/pages/main_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front_end/app/di/injection.dart';
 import 'package:front_end/app/theme/colors.dart';
 import 'package:front_end/features/calendar/presentation/pages/calendar_page.dart';
-import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
-import 'package:front_end/features/dashboard/presentation/blocs/dashboard_event.dart';
 import 'package:front_end/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
+import 'package:front_end/features/recording/presentation/bloc/recording_event.dart';
+import 'package:front_end/features/recording/presentation/bloc/recording_state.dart';
+import 'package:front_end/features/recording/presentation/pages/recording_page.dart';
+import 'package:front_end/features/recording/presentation/widgets/recording_bottom_sheet.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -21,11 +26,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late AnimationController _fabController;
   late Animation<double> _fabScaleAnimation;
 
-  // 👉 Không đổi gì, chỉ chuyển qua IndexedStack ở phần build()
   late final List<Widget> _screens = [
     const DashboardPage(),
     const CalendarPage(),
-    const ScreenContent(title: 'Voice', icon: Icons.mic),
+    const RecordingPage(),
     const ScreenContent(title: 'Notifications', icon: Icons.notifications_rounded),
     const ScreenContent(title: 'Profile', icon: Icons.person_rounded),
   ];
@@ -78,43 +82,154 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   void _onCenterTapped() {
     _fabController.forward().then((_) => _fabController.reverse());
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Voice feature coming soon!'),
-        duration: Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
+    final recordingBloc = context.read<RecordingBloc>();
+    
+    if (recordingBloc.state.isRecording) {
+      // Nếu đang ghi, mở lại popup
+      _showRecordingSheet();
+    } else {
+      // Nếu chưa ghi, bắt đầu ghi và mở popup
+      recordingBloc.add(StartRecordingEvent());
+      _showRecordingSheet();
+    }
+  }
+
+  void _showRecordingSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => BlocProvider.value(
+        value: context.read<RecordingBloc>(),
+        child: const RecordingBottomSheet(),
       ),
-    );
+    ).whenComplete(() {
+      // force rebuild để MiniBar hiện lên
+      if (mounted) setState(() {});
+    });
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = seconds ~/ 60;
+    final secs = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManager.background,
-
-      // 🔥🔥🔥 CHỈ SỬA DUY NHẤT PHẦN NÀY 🔥🔥🔥
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
-      // END
-
-      bottomNavigationBar: Container(
-        height: 70,
-        decoration: const BoxDecoration(color: ColorManager.background),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.dashboard_rounded, 0),
-            _buildNavItem(Icons.calendar_month_sharp, 1),
-            const SizedBox(width: 4),
-            _buildCenterButton(),
-            const SizedBox(width: 4),
-            _buildNavItem(Icons.notifications_rounded, 3),
-            _buildNavItem(Icons.person_rounded, 4),
-          ],
-        ),
-      ),
+    return BlocBuilder<RecordingBloc, RecordingState>(
+      builder: (context, recordingState) {
+        return Scaffold(
+          backgroundColor: ColorManager.background,
+          body: Stack(
+            children: [
+              IndexedStack(
+                index: _selectedIndex,
+                children: _screens,
+              ),
+              
+              // Mini recording bar khi đang ghi và không mở popup
+              if (recordingState.isRecording)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 70,
+                  child: GestureDetector(
+                    onTap: _showRecordingSheet,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.red[400]!, Colors.red[600]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.red.withOpacity(0.3),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          // Pulsing record icon
+                          TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0.0, end: 1.0),
+                            duration: const Duration(milliseconds: 1000),
+                            builder: (context, value, child) {
+                              return Transform.scale(
+                                scale: 0.8 + (value * 0.2),
+                                child: Container(
+                                  width: 12,
+                                  height: 12,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              );
+                            },
+                            onEnd: () {
+                              if (mounted && recordingState.isRecording) {
+                                setState(() {});
+                              }
+                            },
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Đang ghi âm',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            _formatTime(recordingState.recordingSeconds),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'monospace',
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Icon(
+                            Icons.keyboard_arrow_up_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          bottomNavigationBar: Container(
+            height: 70,
+            decoration: const BoxDecoration(color: ColorManager.background),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(Icons.dashboard_rounded, 0),
+                _buildNavItem(Icons.calendar_month_sharp, 1),
+                const SizedBox(width: 4),
+                _buildCenterButton(recordingState),
+                const SizedBox(width: 4),
+                _buildNavItem(Icons.notifications_rounded, 3),
+                _buildNavItem(Icons.person_rounded, 4),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -165,13 +280,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-          );
+          );  
         },
       ),
     );
   }
 
-  Widget _buildCenterButton() {
+  Widget _buildCenterButton(RecordingState recordingState) {
     return ScaleTransition(
       scale: _fabScaleAnimation,
       child: GestureDetector(
@@ -181,18 +296,23 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           width: 60,
           height: 60,
           decoration: BoxDecoration(
-            gradient: ColorManager.primary,
+            gradient: recordingState.isRecording ? null : ColorManager.primary,
+            color: recordingState.isRecording ? Colors.red : null,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: ColorManager.primarySolid.withOpacity(0.3),
+                color: (recordingState.isRecording ? Colors.red : ColorManager.primarySolid).withOpacity(0.3),
                 blurRadius: 15,
-                spreadRadius: _selectedIndex == 2 ? 3 : 0,
+                spreadRadius: recordingState.isRecording ? 3 : 0,
                 offset: const Offset(0, 5),
               ),
             ],
           ),
-          child: const Icon(Icons.mic, color: Colors.white, size: 30),
+          child: Icon(
+            recordingState.isRecording ? Icons.graphic_eq_rounded : Icons.mic,
+            color: Colors.white,
+            size: 30,
+          ),
         ),
       ),
     );
