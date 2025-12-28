@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front_end/app/di/injection.dart';
 import 'package:front_end/app/theme/colors.dart';
-import 'package:front_end/features/calendar/presentation/pages/calendar_page.dart';
+import 'package:front_end/features/meeting/presentation/pages/calendar_page.dart';
 import 'package:front_end/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_event.dart';

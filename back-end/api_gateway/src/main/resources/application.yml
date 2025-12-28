@@ -52,6 +52,12 @@ spring:
                 - Path=${app.api-prefix}/auth/**, ${app.api-prefix}/user/**
               filters:
                 - PreserveHostHeader
+            - id: meeting-service
+              uri: lb://meeting-service
+              predicates:
+                - Path=${app.api-prefix}/meeting/**
+              filters:
+                - PreserveHostHeader
 
           httpclient:
             wiretap: true

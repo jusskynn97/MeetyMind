@@ -3,6 +3,7 @@ import 'package:front_end/app/di/injection.dart';
 import 'package:front_end/features/auth/presentation/blocs/login_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_event.dart';
+import 'package:front_end/features/meeting/presentation/bloc/meeting_bloc.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:front_end/app/routes/routes.dart';
@@ -25,7 +26,7 @@ class AppRouter {
       GoRoute(
         path: Routes.login,
         builder: (_, __) => BlocProvider(
-          create: (_) => sl<LoginBloc>(), // ✅ đúng cách
+          create: (_) => sl<LoginBloc>(), 
           child: const LoginPage(),
         ),
       ),

@@ -23,6 +23,7 @@ public class UserService {
 
 
   public UserDTO getProfileFromToken(String bearerToken) {
+    System.out.println("Token: " + bearerToken);
     if (bearerToken == null || !bearerToken.startsWith("Bearer ")) throw new RuntimeException("Missing token");
     String token = bearerToken.substring(7);
     if (!jwtUtil.validateToken(token)) throw new RuntimeException("Invalid token");
