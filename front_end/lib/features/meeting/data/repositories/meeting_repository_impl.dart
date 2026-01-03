@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:front_end/features/meeting/data/datasources/meeting_remote_data_source.dart';
+import 'package:front_end/features/meeting/domain/entities/meeting.dart';
 import 'package:front_end/features/meeting/domain/entities/meeting_create_request.dart';
 import 'package:front_end/features/meeting/domain/repositories/meeting_repository.dart';
-
 class MeetingRepositoryImpl implements MeetingRepository {
   final MeetingRemoteDataSource remote;
 
@@ -18,12 +18,11 @@ class MeetingRepositoryImpl implements MeetingRepository {
     } catch (e) {
       throw Exception('Unexpected error: $e');
     }
-    // TODO: implement createMeeting
   }
 
   @override
-  Future<List> fetchMeetings(DateTime date) {
-    // TODO: implement fetchMeetings
-    throw UnimplementedError();
+  Future<List<Meeting>> getMeetingsByDate(DateTime date) async {
+    final models = await remote.getMeetingsByDate(date);
+    return models.map((m) => m.toEntity()).toList();
   }
 }

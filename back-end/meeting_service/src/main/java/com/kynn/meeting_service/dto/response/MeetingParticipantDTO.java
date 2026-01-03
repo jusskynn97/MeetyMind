@@ -1,34 +1,35 @@
-package com.kynn.meeting_service.entity;
+package com.kynn.meeting_service.dto.response;
 
+import com.kynn.meeting_service.entity.Permission;
+import com.kynn.meeting_service.entity.SourceType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
 @Data
-@Table(name = "meeting_participant")
-public class MeetingParticipant {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class MeetingParticipantDTO {
   private UUID meetingParticipantId;
 
   private UUID meetingId;
 
-  @Enumerated(EnumType.STRING)
   private SourceType sourceType;
   // uid if sourceType is manual | groupId if sourceType is group
   private UUID sourceId;
 
-  @Enumerated(EnumType.STRING)
   private Permission permission;
 
-  @CreationTimestamp
   private Timestamp joinAt;
   private Timestamp leaveAt;
 
 }
+
+

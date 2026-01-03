@@ -3,6 +3,8 @@ package com.kynn.meeting_service.controller;
 
 import com.kynn.meeting_service.dto.request.CreateMeetingRequest;
 import com.kynn.meeting_service.dto.response.ApiResponse;
+import com.kynn.meeting_service.dto.response.MeetingDTO;
+import com.kynn.meeting_service.entity.Meeting;
 import com.kynn.meeting_service.services.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/meeting")
@@ -43,14 +46,15 @@ public class MeetingController {
   }
 
   @GetMapping("/get")
-  public ApiResponse<String> getMeetings(@RequestHeader("Authorization") String authHeader, @RequestParam LocalDate date) {
+  public ApiResponse<List<MeetingDTO>> getMeetings(@RequestHeader("Authorization") String authHeader, @RequestParam LocalDate date) {
     // Do Something
     log.info("Get meetings request: {}", date);
+    List<MeetingDTO> meetingDTOs = meetingService.getMeetings(authHeader, date);
 
-    return ApiResponse.<String>builder()
+    return ApiResponse.<List<MeetingDTO>>builder()
             .code(HttpStatus.OK.value())
             .message("Successful")
-            .data("Meeting is got")
+            .data(meetingDTOs)
             .build();
   }
 

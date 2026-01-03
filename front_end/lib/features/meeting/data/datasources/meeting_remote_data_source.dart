@@ -7,7 +7,7 @@ import 'package:front_end/features/meeting/domain/entities/meeting_create_reques
 
 abstract class MeetingRemoteDataSource {
   Future<void> createMeeting(MeetingCreateRequest meetingCreateRequest);
-  Future<List<MeetingModel>> fetchMeetings(String token);
+  Future<List<MeetingModel>> getMeetingsByDate(DateTime date);
 }
 
 class MeetingRemoteDataSourceImpl implements MeetingRemoteDataSource {
@@ -43,9 +43,35 @@ class MeetingRemoteDataSourceImpl implements MeetingRemoteDataSource {
   }
   
   @override
-  Future<List<MeetingModel>> fetchMeetings(String token) {
-    // TODO: implement fetchMeetings
-    throw UnimplementedError();
+  Future<List<MeetingModel>> getMeetingsByDate(DateTime date) async{
+    try {
+      // print("Token: ${_dio.options.headers['Authorization']}");
+
+      final response = await _dio.get(
+        ApiConfig.getMeetings,
+        queryParameters: {
+          'date': date.toIso8601String().split('T').first,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List data = response.data['data'];
+        return data
+            .map((e) => MeetingModel.fromJson(e))
+        .toList();
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: response.statusMessage,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } on DioException catch (e) {
+      rethrow;
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
   }
 
 }

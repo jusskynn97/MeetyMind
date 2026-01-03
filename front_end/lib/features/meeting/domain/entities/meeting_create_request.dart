@@ -5,6 +5,7 @@ class MeetingCreateRequest {
   final DateTime date;
   final String startTime;
   final String endTime;
+  final List<String> participants;
 
   const MeetingCreateRequest({
     required this.title,
@@ -13,5 +14,6 @@ class MeetingCreateRequest {
     required this.date,
     required this.startTime,
     required this.endTime,
+    required this.participants,
   });
 }

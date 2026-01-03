@@ -34,4 +34,6 @@ public class MeetingDTO {
   private Instant createdAt;
   private Instant updatedAt;
 
+  private Boolean isOwner;
+
 }

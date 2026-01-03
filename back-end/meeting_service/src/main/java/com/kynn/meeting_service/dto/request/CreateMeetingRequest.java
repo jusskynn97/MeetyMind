@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +19,8 @@ public class CreateMeetingRequest {
   private LocalDate date;
   private LocalTime startTime;
   private LocalTime endTime;
+
+  // Using for MeetingParticipant
+  private List<String> participants;
+//  private List<UUID> groupId;
 }

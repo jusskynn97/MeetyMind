@@ -8,6 +8,7 @@ class MeetingCreateModel extends MeetingCreateRequest {
     required super.date,
     required super.startTime,
     required super.endTime,
+    required super.participants,
   });
 
   Map<String, dynamic> toJson() {
@@ -21,6 +22,7 @@ class MeetingCreateModel extends MeetingCreateRequest {
     "date": formattedDate, // Format: yyyy-MM-dd
     "startTime": startTime,
     "endTime": endTime,
+    "participants": participants,
   };
 }
 
@@ -32,6 +34,7 @@ class MeetingCreateModel extends MeetingCreateRequest {
       date: req.date,
       startTime: req.startTime,
       endTime: req.endTime,
+      participants: req.participants,
     );
   }
 }

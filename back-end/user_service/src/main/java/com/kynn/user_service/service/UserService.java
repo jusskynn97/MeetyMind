@@ -32,4 +32,13 @@ public class UserService {
     User user = userRepository.findByAccount_AccountId(acc.getAccountId()).orElse(null);
     return userMapper.toDTO(user);
   }
+
+  public UUID getUidFromEmail(String authHeader, String email) {
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) throw new RuntimeException("Missing token");
+    String token = authHeader.substring(7);
+    if (!jwtUtil.validateToken(token)) throw new RuntimeException("Invalid token");
+    Account acc = accountRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Account not found"));
+    User user = userRepository.findByAccount_AccountId(acc.getAccountId()).orElseThrow(() -> new RuntimeException("User not found"));
+    return user.getUid();
+  }
 }

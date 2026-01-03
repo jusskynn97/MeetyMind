@@ -4,9 +4,9 @@ import 'package:front_end/app/di/auth_injection.dart';
 import 'package:front_end/app/routes/routes.dart';
 import 'package:front_end/app/theme/colors.dart';
 import 'package:front_end/core/helper/rive_login_controller.dart';
-import 'package:front_end/features/auth/presentation/blocs/login_bloc.dart';
-import 'package:front_end/features/auth/presentation/blocs/login_event.dart';
-import 'package:front_end/features/auth/presentation/blocs/login_state.dart';
+import 'package:front_end/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:front_end/features/auth/presentation/blocs/auth_event.dart';
+import 'package:front_end/features/auth/presentation/blocs/auth_state.dart';
 import 'package:front_end/features/auth/presentation/widgets/gradient_elevated_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void onLoginPressed() {
-    context.read<LoginBloc>().add(
+    context.read<AuthBloc>().add(
       LoginSubmitted(emailController.text, passController.text),
     );
   }
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage>
     return Scaffold(
       backgroundColor: ColorManager.background,
       body: Center(
-        child: BlocConsumer<LoginBloc, LoginState>(
+        child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccess || state is LoginTokenFound) {
               // ScaffoldMessenger.of(context).showSnackBar(
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage>
           builder: (context, state) {
             if (state is LoginInitial) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.read<LoginBloc>().add(CheckSavedToken());
+                context.read<AuthBloc>().add(CheckSavedToken());
               });
             }
             

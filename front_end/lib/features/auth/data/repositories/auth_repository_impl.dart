@@ -30,6 +30,11 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token == null) throw Exception('No token found');
     return remoteDataSource.getProfile(token);
   }
+  
+  @override
+  Future<void> logout() {
+    return localDataSource.clearToken();
+  }
 
 
 }

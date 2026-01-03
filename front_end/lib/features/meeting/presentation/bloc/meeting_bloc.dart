@@ -1,17 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:front_end/features/meeting/domain/entities/meeting_create_request.dart';
 import 'package:front_end/features/meeting/domain/usecases/create_meeting_usecase.dart';
-import 'package:front_end/features/meeting/domain/usecases/get_meetings_usecase.dart';
+import 'package:front_end/features/meeting/domain/usecases/get_meetings_by_date_usecase.dart';
 import 'package:front_end/features/meeting/presentation/bloc/meeting_state.dart';
 
 part 'meeting_event.dart';
 
 class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
   final CreateMeetingUsecase createMeetingUsecase;
-  final GetMeetingsUsecase getMeetingsUsecase;
+  final GetMeetingsByDateUsecase getMeetingsByDateUsecase;
 
-  MeetingBloc(this.createMeetingUsecase, this.getMeetingsUsecase) : super(CreateMeetingInitial()) {
+  MeetingBloc(this.createMeetingUsecase, this.getMeetingsByDateUsecase) : super(CreateMeetingInitial()) {
     on<CreateMeetingEvent>(_onCreateMeeting);
+    on<GetMeetingByDateEvent>(_onGetMeetingByDate);
   }
 
   void _onCreateMeeting(CreateMeetingEvent event, Emitter<MeetingState> emit) async {
@@ -23,7 +24,8 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
         location: event.location, 
         date: event.date, 
         startTime: event.startTime, 
-        endTime: event.endTime
+        endTime: event.endTime,
+        participants: event.participants,
       );
 
       final result = await createMeetingUsecase(createMeetingRequest);
@@ -35,6 +37,20 @@ class MeetingBloc extends Bloc<MeetingEvent, MeetingState> {
       // XÓA dòng emit(CreateMeetingSuccess()); ở đây
     } catch (e) {
       emit(CreateMeetingFailure(e.toString()));
+    }
+  }
+
+  void _onGetMeetingByDate(GetMeetingByDateEvent event, Emitter<MeetingState> emit) async {
+    emit(Loading());
+    try {
+      final result = await getMeetingsByDateUsecase(event.date);
+
+      result.fold(
+        (failure) => emit(Failure(failure.toString())),
+        (meetings) => emit(Success(meetings)),
+      );
+    } catch (e) {
+      emit(Failure(e.toString()));
     }
   }
 }

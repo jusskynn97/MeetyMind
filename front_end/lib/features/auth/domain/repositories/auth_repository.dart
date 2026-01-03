@@ -6,4 +6,6 @@ abstract class AuthRepository {
   Future<String?> getSavedToken();
 
   Future<UserEntity> getProfile(String token);
+
+  Future<void> logout();
 }

@@ -6,9 +6,15 @@ import com.kynn.meeting_service.dto.share.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.UUID;
 
 @FeignClient(name = "user-service", configuration = FeignConfig.class)
 public interface UserClient {
   @GetMapping("/api/user/me")
   ApiResponse<UserDTO> me(@RequestHeader("Authorization") String authHeader);
+
+  @GetMapping("/api/user/get-uid-email")
+  ApiResponse<UUID> getUidFromEmail(@RequestHeader("Authorization") String authHeader, @RequestParam String email);
 }
