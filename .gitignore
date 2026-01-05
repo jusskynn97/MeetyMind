@@ -37,13 +37,13 @@ backup/
 
 
 **/postgres_data/
-**/ai_services/
-**/ai_services/Include/
-**/ai_services/Lib/
-**/ai_services/Scripts/
-**/ai_services/pyvenv.cfg/
-**/ai_services/__pycache__/
-**/ai_services/Library/
-**/ai_services/share/
+# **/ai_services/
+# **/ai_services/Include/
+# **/ai_services/Lib/
+# **/ai_services/Scripts/
+# **/ai_services/pyvenv.cfg/
+# **/ai_services/__pycache__/
+# **/ai_services/Library/
+# **/ai_services/share/
 **/uninstall.txt
 

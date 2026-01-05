@@ -10,9 +10,9 @@ spring:
 
   servlet:
     multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
       enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB
 
   http:
     codecs:
@@ -55,7 +55,13 @@ spring:
             - id: meeting-service
               uri: lb://meeting-service
               predicates:
-                - Path=${app.api-prefix}/meeting/**
+                - Path=${app.api-prefix}/meeting/**, ${app.api-prefix}/transcript/**
+              filters:
+                - PreserveHostHeader
+            - id: ai-service
+              uri: lb://ai-service
+              predicates:
+                - Path=${app.api-prefix}/ai/**
               filters:
                 - PreserveHostHeader
 

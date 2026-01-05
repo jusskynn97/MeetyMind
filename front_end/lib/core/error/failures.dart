@@ -1,12 +1,13 @@
 abstract class Failure {
   final String message;
-  Failure(this.message);
+
+  const Failure({required this.message});
 }
 
 class ServerFailure extends Failure {
-  ServerFailure(String message) : super(message);
+  const ServerFailure({required super.message});
 }
 
 class NetworkFailure extends Failure {
-  NetworkFailure() : super('No internet connection');
+  const NetworkFailure() : super(message: 'No internet connection');
 }

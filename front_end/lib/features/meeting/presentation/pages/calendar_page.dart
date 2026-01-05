@@ -9,6 +9,7 @@ import 'package:front_end/features/meeting/presentation/widgets/calendar_header_
 import 'package:front_end/features/meeting/presentation/widgets/calendar_menu_widget.dart';
 import 'package:front_end/features/meeting/presentation/widgets/calendar_meeting_preview_widget.dart';
 import 'package:front_end/features/meeting/presentation/widgets/calendar_schedule_widget.dart';
+import 'package:front_end/features/meeting_detail/presentation/pages/meeting_detail_page.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -185,6 +186,7 @@ class _CalendarPageState extends State<CalendarPage> with SingleTickerProviderSt
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: () => _onMeetingSelected(null, null),
+                    behavior: HitTestBehavior.opaque,
                     child: Center(
                       child: GestureDetector(
                         onTap: () {}, // Prevent dismiss when tapping card/menu
@@ -202,8 +204,21 @@ class _CalendarPageState extends State<CalendarPage> with SingleTickerProviderSt
                                     CalendarMenuWidget(
                                       meeting: _selectedMeeting!,
                                       onViewDetails: () {
-                                        _onMeetingSelected(null, null);
                                         // TODO: Navigate to meeting details page
+                                        final meeting = _selectedMeeting;
+                                        if (meeting == null) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text('Meeting data not available')),
+                                          );
+                                          return;
+                                        }
+
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => MeetingDetailPage(meeting: meeting),
+                                          ),
+                                        );
+                                        _onMeetingSelected(null, null);
                                       },
                                       onEdit: () {
                                         _onMeetingSelected(null, null);

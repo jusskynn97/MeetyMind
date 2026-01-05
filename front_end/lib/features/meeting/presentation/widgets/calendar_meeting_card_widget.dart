@@ -23,7 +23,7 @@ class CalendarMeetingCardWidget extends StatelessWidget {
     final color = Color(meeting['color'] ?? 0xFF0066FF);
 
     return GestureDetector(
-      onLongPress: onLongPress,
+      onTap: onLongPress,
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),

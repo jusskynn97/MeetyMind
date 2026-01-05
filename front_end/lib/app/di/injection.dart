@@ -1,6 +1,7 @@
 import 'package:front_end/app/di/auth_injection.dart';
 import 'package:front_end/app/di/core_injection.dart';
 import 'package:front_end/app/di/dashboard_injection.dart';
+import 'package:front_end/app/di/meeting_detail_injection.dart';
 import 'package:front_end/app/di/meeting_injection.dart';
 import 'package:front_end/app/di/recording_injection.dart';
 import 'package:get_it/get_it.dart';
@@ -15,4 +16,5 @@ Future<void> init() async {
   DashboardInjection.register(sl);
   RecordingInjection.register(sl);
   MeetingInjection.register(sl);
+  MeetingDetailInjection.register(sl);
 }

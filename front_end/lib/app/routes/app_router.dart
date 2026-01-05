@@ -6,6 +6,7 @@ import 'package:front_end/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:front_end/features/auth/presentation/blocs/auth_state.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:front_end/features/dashboard/presentation/blocs/dashboard_event.dart';
+import 'package:front_end/features/meeting_detail/presentation/pages/meeting_detail_page.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:front_end/app/routes/routes.dart';
@@ -52,6 +53,10 @@ class AppRouter {
         path: Routes.login,
         builder: (_, __) => const LoginPage(),
       ),
+      // GoRoute(
+      //   path: Routes.meetingDetails,
+      //   builder: (_, __) => const MeetingDetailPage(),
+      // ),
       GoRoute(
         path: Routes.main,
         builder: (_, __) => MultiBlocProvider(
