@@ -21,13 +21,13 @@ The project uses a **Microservices** architecture.
 
 ```mermaid
 graph TD
-    Flutter[Flutter App <br/> (iOS/Android)]
-    Gateway[API Gateway <br/> Spring Cloud Gateway]
-    Eureka[Discovery Server <br/> Eureka Server]
-    UserService[User Service <br/> Spring Boot]
-    MeetingService[Meeting Service <br/> Spring Boot]
-    NotificationService[Notification Service <br/> Spring Boot]
-    AIService[AI Service <br/> FastAPI]
+    Flutter[Flutter App (iOS/Android)]
+    Gateway[API Gateway - Spring Cloud Gateway]
+    Eureka[Discovery Server - Eureka Server]
+    UserService[User Service - Spring Boot]
+    MeetingService[Meeting Service - Spring Boot]
+    NotificationService[Notification Service - Spring Boot]
+    AIService[AI Service - FastAPI]
     PostgreSQL[(PostgreSQL)]
     RabbitMQ{RabbitMQ}
     Chroma[(ChromaDB)]
