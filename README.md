@@ -16,6 +16,24 @@ AI Meeting Assistant helps you manage meetings, record audio, view real-time tra
 - 📲 **Push notifications** with Firebase Cloud Messaging (FCM)
 - ☁️ **Media file storage** with Cloudinary
 
+## Screenshots
+Here are some screenshots of the app in action:
+
+### Home & Authentication
+| Login Screen | Home Dashboard |
+|--------------|----------------|
+| <img src="https://picsum.photos/300/600?random=1" width="250"/> | <img src="https://picsum.photos/300/600?random=2" width="250"/> |
+
+### Meeting Features
+| Create Meeting | Meeting List |
+|----------------|--------------|
+| <img src="https://picsum.photos/300/600?random=3" width="250"/> | <img src="https://picsum.photos/300/600?random=4" width="250"/> |
+
+| Transcript View | RAG Chatbot |
+|-----------------|-------------|
+| <img src="https://picsum.photos/300/600?random=5" width="250"/> | <img src="https://picsum.photos/300/600?random=6" width="250"/> |
+
+
 ## System Architecture
 The project uses a **Microservices** architecture.
 
