@@ -20,18 +20,18 @@ AI Meeting Assistant helps you manage meetings, record audio, view real-time tra
 Here are some screenshots of the app in action:
 
 ### Home & Authentication
-| Login Screen | Home Dashboard |
+| Calendar Screen | Create Meeting Schedule |
 |--------------|----------------|
-| <img src="https://picsum.photos/300/600?random=1" width="250"/> | <img src="https://picsum.photos/300/600?random=2" width="250"/> |
+| <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture1.png" width="250"/> | <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture2.png" width="250"/> |
 
 ### Meeting Features
-| Create Meeting | Meeting List |
+| Meeting Summary | Meeting Transcription |
 |----------------|--------------|
-| <img src="https://picsum.photos/300/600?random=3" width="250"/> | <img src="https://picsum.photos/300/600?random=4" width="250"/> |
+| <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture3.png" width="250"/> | <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture4.png" width="250"/> |
 
-| Transcript View | RAG Chatbot |
+| Notification | RAG Chatbot |
 |-----------------|-------------|
-| <img src="https://picsum.photos/300/600?random=5" width="250"/> | <img src="https://picsum.photos/300/600?random=6" width="250"/> |
+| <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture6.png" width="250"/> | <img src="https://raw.githubusercontent.com/jusskynn97/MeetyMind/refs/heads/main/demo_images/Picture5.png" width="250"/> |
 
 
 ## System Architecture
