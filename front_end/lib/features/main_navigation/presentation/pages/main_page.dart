@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:front_end/app/di/injection.dart';
 import 'package:front_end/app/theme/colors.dart';
-import 'package:front_end/features/calendar/presentation/pages/calendar_page.dart';
+import 'package:front_end/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:front_end/features/meeting/presentation/pages/calendar_page.dart';
 import 'package:front_end/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:front_end/features/profile/presentation/pages/profile_page.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_bloc.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_event.dart';
 import 'package:front_end/features/recording/presentation/bloc/recording_state.dart';
@@ -31,7 +33,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     const CalendarPage(),
     const RecordingPage(),
     const ScreenContent(title: 'Notifications', icon: Icons.notifications_rounded),
-    const ScreenContent(title: 'Profile', icon: Icons.person_rounded),
+    // const ScreenContent(title: 'Profile', icon: Icons.person_rounded),
+    const ProfilePage(),
   ];
 
   @override
